@@ -169,7 +169,7 @@ public class AddressBook {
 		Scanner sc = new Scanner(System.in);
 		int choice = 0;
 		while (choice != 10) {
-			System.out.print("please choose from below\n1-add contact\n2-edit contact\n:-> ");
+			System.out.print("please choose from below\n1-add contact\n2-edit contact\n3-delete contact\n:-> ");
 			choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -178,7 +178,6 @@ public class AddressBook {
 			case 2:
 				addressBook.editContact();
 				break;
-
 			case 3:
 				addressBook.deletePerson();
 			}
