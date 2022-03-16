@@ -1,8 +1,8 @@
 package com.blz.javastreamAPI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -11,9 +11,11 @@ import java.util.Scanner;
  */
 
 public class AddressBook {
-	List<Person> list = new ArrayList<>();
+	ArrayList<Person> list = new ArrayList<>();
 	// as we use hashSet here multiple entries are not allowed.
 	Scanner sc;
+
+	static HashMap<String, ArrayList<Person>> contacts = new HashMap<>();
 
 	public void addDetails() {
 		sc = new Scanner(System.in);
@@ -162,26 +164,130 @@ public class AddressBook {
 
 	}
 
+//	Create unique address book for each person 
+	public void createAddressBook() {
+
+		while (true) {
+			System.out.println("Choose what you want to do: ");
+			System.out.println(
+					"1.Create new address book.\n2.Edit existing address book.\n3.Display all address books.\n4.exit");
+			int choose = 0;
+			Scanner sc = new Scanner(System.in);
+			choose = sc.nextInt();
+
+			if (choose == 4) {
+				System.out.println("Exited");
+				break;
+			}
+
+			switch (choose) {
+			case 1:
+				System.out.println("Enter the name of address book: ");
+				String address_name = sc.next();
+
+				// condition to check for uniqueness of address book.
+				if (contacts.containsKey(address_name)) {
+					System.out.println("Adress book name exits, enter different name");
+					break;
+				}
+
+				ArrayList<Person> new_address_book = new ArrayList<>();
+				list = new_address_book;
+				while (true) {
+					int choose1;
+					System.out.println("Choose what you want to do: ");
+					System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact.\n4.Exit");
+					choose1 = sc.nextInt();
+					if (choose1 == 4) {
+						System.out.println("Exited");
+						break;
+					}
+					switch (choose1) {
+					case 1:
+						again();
+						break;
+					case 2:
+						addDetails();
+						break;
+					case 3:
+						editContact();
+						break;
+					case 4:
+						deletePerson();
+						break;
+					default:
+						System.out.println("Choose valid option");
+						break;
+					}
+					contacts.put(address_name, list);
+					System.out.println(contacts);
+				}
+				break;
+
+			case 2:
+				System.out.println("Enter the name of address book: ");
+				String address_name_old = sc.next();
+
+				// condition to check whether address book exists or no.
+				if (contacts.containsKey(address_name_old)) {
+
+					ArrayList<Person> old_address_book = new ArrayList<>();
+					list = old_address_book;
+					list = contacts.get(address_name_old);
+					while (true) {
+						System.out.println("Choose what you want to do: ");
+						System.out.println(
+								"1. Create New AddressBook\n2.Add details.\n3.Edit details.\n4.Delete contact.\n5.Exit");
+						int choose2 = sc.nextInt();
+						if (choose2 == 4) {
+							System.out.println("Exited");
+							break;
+						}
+						switch (choose2) {
+						case 1:
+							again();
+							break;
+						case 2:
+							addDetails();
+							break;
+						case 3:
+							editContact();
+							break;
+						case 4:
+							deletePerson();
+							break;
+						default:
+							System.out.println("Choose valid option");
+							break;
+						}
+						contacts.put(address_name_old, list);
+						System.out.println(contacts);
+					}
+				} else {
+					System.out.println("Enter valid address book name");
+				}
+				break;
+
+			case 3:
+				System.out.println(contacts);
+				break;
+
+			default:
+				System.out.println("Enter valid option");
+
+			}
+		}
+	}
+
+	private void again() {
+		createAddressBook();
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcom to Address book program using Stream API");
 		AddressBook addressBook = new AddressBook();
-		Scanner sc = new Scanner(System.in);
-		int choice = 0;
-		while (choice != 10) {
-			System.out.print("please choose from below\n1-add contact\n2-edit contact\n3-delete contact\n:-> ");
-			choice = sc.nextInt();
-			switch (choice) {
-			case 1:
-				addressBook.addDetails();
-				break;
-			case 2:
-				addressBook.editContact();
-				break;
-			case 3:
-				addressBook.deletePerson();
-			}
-		}
+		addressBook.createAddressBook();
 
 	}
 }
