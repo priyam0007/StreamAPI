@@ -1,7 +1,6 @@
 package com.blz.javastreamAPI;
 
 public class Person {
-
 	String firstName;
 	String lastName;
 	String address;

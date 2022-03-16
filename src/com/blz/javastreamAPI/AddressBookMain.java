@@ -45,5 +45,4 @@ public class AddressBookMain {
 		AddressBookMain addressBookMain = new AddressBookMain();
 		addressBookMain.chooseOption();
 	}
-
 }
